@@ -6,7 +6,7 @@ export default function App() {
 
   return(
     <>
-      {!isLoggedIn && <Login />}
+      {!isLoggedIn && <Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}
       {isLoggedIn && <MainPage />}
     </>
     
