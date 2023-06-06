@@ -1,8 +1,7 @@
-const { query } = require('../models/model');
+const pool = require('../models/model');
 const bcrypt = require('bcrypt');
 
 function errorCreator(funcName, error) {
-  console.log(error.message);
   return {
     log: `Express error handler caught ${funcName} error with message ${error.message}`,
     status: 400,
@@ -14,8 +13,8 @@ const authController = {
   // used if user exists
   checkUser: async (req, res, next) => {
     try {const { username } = req.body;
-    const queryString = 'SELECT * FROM public.users WHERE username = $1';
-    const { rows } = await query(queryString, [username]);
+    const queryString = 'SELECT * FROM public.users WHERE username = $1;';
+    const { rows } = await pool.query(queryString, [username]);
     if (!rows.length){
       return next();
     }
@@ -30,18 +29,22 @@ const authController = {
   },
   // verify user with pass
   getUser: async (req, res, next) => {
-    try {const { username, password } = req.body;
-    const queryString = 'SELECT * FROM public.users WHERE username = $1';
-    
-    const { rows } = await query(queryString, [username]);
-    if (!rows.length){
-      res.locals.newUser = true;
+    try {
+      const { username, password } = req.body;
+      const queryString = 'SELECT * FROM public.users WHERE username = $1;';
+      const { rows } = await pool.query(queryString, [username]);
+      if (rows.length) {
+      // rows = [ { _id: 0, username: '123', password: 'hashed' } ]
+      //compare rows[0].password with password
+      // if true, user can log in
+        const valid = await bcrypt.compare(password, rows[0].password);
+        if (valid) {
+          res.locals.userId = rows[0]._id;
+        }
+      }
       return next();
-    }
-    //query DB for username and password
-    return next();
   }catch (error) {
-    return next(errorCreator("checkUser", error));
+    return next(errorCreator("getUser", error));
     }
   },
   registerUser: async (req, res, next) => {
@@ -53,7 +56,7 @@ const authController = {
       const insertUser =`INSERT INTO users (username, password)
         VALUES ($1, $2) RETURNING *;`;
       const params = [username, passwordHash];
-      const { rows } = await query(insertUser, params);
+      const { rows } = await pool.query(insertUser, params);
       if(rows.length){
         res.locals.userId = rows[0]._id;
       }

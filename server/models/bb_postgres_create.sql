@@ -24,7 +24,8 @@ CREATE TABLE public.budgets (
   "_id" serial NOT NULL,
   "user_id" bigint NOT NULL,
   "income" int NOT NULL,
-  CONSTRAINT "budgets_pk" PRIMARY KEY ("_id")
+  CONSTRAINT "budgets_pk" PRIMARY KEY ("_id"),
+  "budget_amount" int NOT NULL
 );
 
 CREATE TABLE public.expenses (

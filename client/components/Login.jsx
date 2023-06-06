@@ -29,7 +29,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
-export default function Login({isLoggedIn, setIsLoggedIn}) {
+export default function Login({isLoggedIn, setIsLoggedIn, setToggleSignup}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -55,6 +55,9 @@ export default function Login({isLoggedIn, setIsLoggedIn}) {
       })
   } ;
 
+  const handleSignupClick = () => {
+    setToggleSignup(true);
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -107,13 +110,13 @@ export default function Login({isLoggedIn, setIsLoggedIn}) {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link onClick={() => handleSignupClick()} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

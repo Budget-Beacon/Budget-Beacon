@@ -3,17 +3,17 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-const authController = require('../controllers/authController');
-const budgetController = require('../controllers/budgetController');
+const authController = require('./controllers/authController');
+const budgetController = require('./controllers/budgetController');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/login', authController.getUser, (req, res)=>{
-  return res.status(201).json({})
+  return res.status(201).json({userId:res.locals.userId})
 });
-app.post('/register', authController.checkUser, authController.registerUser, (req, res) =>{
-  return res.status(201).json({});
+app.post('/register', authController.checkUser, authController.registerUser, authController.getUser, (req, res) =>{
+  return res.status(201).json({userId:res.locals.userId});
 })
 
 app.use((err, req, res, next) => {
