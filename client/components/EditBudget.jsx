@@ -45,8 +45,8 @@ export default function FormDialog({ setBudget, id }) {
   }
 
   return (
-    <div style={{ margin: "1rem" }}>
-      <Button variant="outlined" onClick={handleClickOpen}>
+    <div style={{ marginLeft: "1rem", marginTop: "0.5rem" }}>
+      <Button variant="contained" color="success" onClick={handleClickOpen}>
         Edit Budget
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -67,14 +67,19 @@ export default function FormDialog({ setBudget, id }) {
             type="text"
             fullWidth
             variant="standard"
+            color="success"
             onChange={(e) => {
               setInput(e.target.value);
             }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={() => handleSubmit()}>Submit</Button>
+          <Button color="success" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button color="success" onClick={() => handleSubmit()}>
+            Submit
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

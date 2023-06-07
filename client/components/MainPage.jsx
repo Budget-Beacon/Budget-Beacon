@@ -8,6 +8,7 @@ import EditBudget from "./EditBudget";
 import EditSalary from "./EditSalary";
 import AddExpense from "./AddExpense";
 import ExpensePercentageChart from "./ExpensePercentageChart";
+import SavingsIcon from "@mui/icons-material/Savings";
 
 export default function MainPage({ id }) {
   const [data, setData] = useState("");
@@ -15,7 +16,6 @@ export default function MainPage({ id }) {
   const [salary, setSalary] = useState(0);
   const [expenses, setExpenses] = useState([]);
   const [budgetId, setBudgetId] = useState(null);
-  const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     // invoke function to fetch data
@@ -52,78 +52,72 @@ export default function MainPage({ id }) {
     }
   };
 
-  useEffect(() => {
-    let total = 0;
-    if (expenses) {
-      expenses.forEach((el) => {
-        total += Number(el.expense_amount);
-      });
-    }
-    setChartData({
-      labels: ["Expenses", "Budget"],
-      datasets: [
-        {
-          label: "Budget Spent",
-          data: [total, budget - total],
-          backgroundColor: ["rgb(64, 81, 59)", "rgb(157, 192, 139)"],
-          borderColor: ["rgb(96, 153, 102)", "rgb(96, 153, 102)"],
-        },
-      ],
-    });
-  }, [expenses]);
-
   return (
-    <Container
-      maxWidth="lrg"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignContent: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Box
+    <div>
+      <Container
+        maxWidth={false}
         sx={{
-          bgcolor: "#EDF1D6",
-          height: "97.5vh",
+          // height: "100vh",
+          bgcolor: "rgb(15,10,150)",
           display: "flex",
           flexDirection: "column",
+          alignContent: "center",
+          justifyContent: "center",
         }}
       >
-        <Typography
-          component="h1"
-          variant="h2"
-          sx={{
-            textAlign: "center",
-            fontFamily: "Montserrat",
-          }}
-        >
-          Budget Beacon
-        </Typography>
-        <Typography component="h1" variant="h5" sx={{ m: 3 }}>
-          Monthly Salary: ${salary}
-        </Typography>
-        <Typography component="h1" variant="h5" sx={{ m: 3 }}>
-          Monthly Budget: ${budget}
-        </Typography>
         <Box
           sx={{
-            bgcolor: "#EDF1D6",
-            height: "97.5vh",
+            height: 1,
+            width: 1,
+            bgcolor: "rgb(25, 25, 25)",
             display: "flex",
             flexDirection: "column",
           }}
         >
+          <Typography
+            component="h1"
+            variant="h2"
+            sx={{
+              textAlign: "center",
+              fontFamily: "Montserrat",
+              color: "rgb(250, 250, 250)",
+            }}
+          >
+            Budget Beacon
+            <SavingsIcon fontSize="large" />
+          </Typography>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
+              marginLeft: "1rem",
+              marginTop: "1rem",
+              color: "rgb(64, 81, 59)",
+            }}
+          >
+            Monthly Salary: <span style={{ color: "#85bb65" }}>${salary}</span>
+          </Typography>
+          <EditSalary id={id} setSalary={setSalary} />
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
+              marginLeft: "1rem",
+              marginTop: "1rem",
+              color: "rgb(64, 81, 59)",
+            }}
+          >
+            Monthly Budget: <span style={{ color: "#85bb65" }}>${budget}</span>
+          </Typography>
+          <EditBudget id={id} setBudget={setBudget} />
+          <AddExpense id={budgetId} setExpenses={setExpenses} />
           <ExpensePercentageChart
             budget={budget}
             expenses={expenses}
-            chartData={chartData}
+            salary={salary}
           />
         </Box>
-        <AddExpense id={budgetId} setExpenses={setExpenses} />
-        <EditSalary id={id} setSalary={setSalary} />
-        <EditBudget id={id} setBudget={setBudget} />
-      </Box>
-    </Container>
+      </Container>
+    </div>
   );
 }

@@ -1,13 +1,10 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
+import InputAdornment from "@mui/material/InputAdornment";
 
 export default function AddExpense({ id, setExpenses }) {
   const [input, setInput] = useState("");
-
-  // useEffect(()=>{
-
-  // })
 
   const handleSubmit = (event) => {
     // event.preventDefault()
@@ -34,11 +31,17 @@ export default function AddExpense({ id, setExpenses }) {
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{ display: "flex", marginY: "1rem", marginX: "1rem", gap: "1rem" }}
+    >
       <TextField
         sx={{ width: "150px" }}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
         id="expense"
         label="Expense"
+        color="success"
         onChange={(e) => {
           setInput(e.target.value);
         }}
@@ -46,7 +49,8 @@ export default function AddExpense({ id, setExpenses }) {
       <Button
         onClick={() => handleSubmit()}
         sx={{ width: "170px" }}
-        variant="outlined"
+        variant="contained"
+        color="success"
       >
         Add Expense
       </Button>
