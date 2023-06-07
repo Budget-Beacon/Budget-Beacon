@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputAdornment from '@mui/material/InputAdornment';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import InputAdornment from "@mui/material/InputAdornment";
 
-export default function FormDialog({setBudget}) {
+export default function FormDialog({ setBudget, id }) {
   const [open, setOpen] = React.useState(false);
-  const [input, setInput] = React.useState('');
+  const [input, setInput] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,58 +20,61 @@ export default function FormDialog({setBudget}) {
     setOpen(false);
   };
   const handleSubmit = (event) => {
-    //set budget
+    //set budget in mainpage
     setBudget(input);
-    //set some local state in our mainpage
     //fetch to the backend to update budget table
+    postBudget(input);
     handleClose();
-  }
+  };
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch('/main', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({id:1})
+  function postBudget(input) {
+    fetch("/budget", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ budget: input, id: id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Budget has been added", data);
+      })
+      .catch((error) => {
+        console.log("error in postBudget", error);
       });
-      const parsedData = await response.json();
-      
-      return setData(parsedData);
-    }
-    catch(err) {
-      console.log("error", err);
-    }
   }
 
   return (
-    <div>
+    <div style={{ margin: "1rem" }}>
       <Button variant="outlined" onClick={handleClickOpen}>
         Edit Budget
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Budget</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please enter your new budget.
-          </DialogContentText>
+          <DialogContentText>Please enter your new budget.</DialogContentText>
           <TextField
             id="filled-start-adornment"
-            InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
             autoFocus
             margin="dense"
-            name='budget'
+            name="budget"
             label="New Budget"
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setInput(e.target.value)}}
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={()=>handleSubmit()}>Submit</Button>
+          <Button onClick={() => handleSubmit()}>Submit</Button>
         </DialogActions>
       </Dialog>
     </div>

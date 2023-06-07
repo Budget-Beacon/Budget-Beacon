@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputAdornment from '@mui/material/InputAdornment';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import InputAdornment from "@mui/material/InputAdornment";
 
-export default function FormDialog() {
+export default function FormDialog({ setSalary, id }) {
   const [open, setOpen] = React.useState(false);
-  const [input, setInput] = React.useState('');
+  const [input, setInput] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,14 +20,32 @@ export default function FormDialog() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) =>{
+  const handleSubmit = (event) => {
     //set income
-    
+    setSalary(input);
+    postSalary(input);
     handleClose();
+  };
+
+  function postSalary(input) {
+    fetch("/salary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ income: input, id: id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Salary has been added", data);
+      })
+      .catch((error) => {
+        console.log("error in postSalary", error);
+      });
   }
 
   return (
-    <div>
+    <div style={{ margin: "1rem" }}>
       <Button variant="outlined" onClick={handleClickOpen}>
         Edit Salary
       </Button>
@@ -39,20 +57,26 @@ export default function FormDialog() {
           </DialogContentText>
           <TextField
             id="filled-start-adornment"
-            InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
             autoFocus
             margin="dense"
-            name='income'
+            name="income"
             label="New Income"
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setInput(e.target.value)}}
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={()=>handleSubmit()}>Submit</Button>
+          <Button onClick={() => handleSubmit()}>Submit</Button>
         </DialogActions>
       </Dialog>
     </div>
