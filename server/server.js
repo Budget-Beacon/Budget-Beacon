@@ -19,10 +19,14 @@ app.post('/register', authController.checkUser, authController.registerUser, aut
 
 // create route handler to grab income/budget to render on load
 app.post('/main', budgetController.getData, (req, res) => {
-  return res.status(201).json(res.locals.data);
+  if(res.locals.data){
+    return res.status(201).json(res.locals.data);
+  }else{
+    return res.status(201).json({});
+  }
 })
 // create route handler to add salary 
-app.post('/salary', budgetController.postIncome, (req, res) => {
+app.post('/salary', budgetController.checkIncome, budgetController.postIncome, (req, res) => {
   return res.status(201).json({salary: res.locals.income});
 });
 // create route handler to add budget

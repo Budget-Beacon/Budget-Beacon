@@ -38,8 +38,9 @@ export default function Signup({setIsLoggedIn, setToggleSignup, setId}) {
     .then((res)=> {
       if (res.userId){
         setToggleSignup(false);
-        setIsLoggedIn(true);
         setId(res.userId);
+        setIsLoggedIn(true);
+     
       }else{
         setSuccess(false);
       }

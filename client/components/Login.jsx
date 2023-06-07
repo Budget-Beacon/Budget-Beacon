@@ -47,8 +47,9 @@ export default function Login({isLoggedIn, setIsLoggedIn, setToggleSignup, setId
       .then((res) => res.json())
       .then((res)=> {
         if (res.userId){
-          setIsLoggedIn(true);
+      
           setId(res.userId);
+          setIsLoggedIn(true);
         }
       })
       .catch(err =>{

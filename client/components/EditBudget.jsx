@@ -8,8 +8,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import InputAdornment from '@mui/material/InputAdornment';
 
-export default function FormDialog() {
+export default function FormDialog({setBudget}) {
   const [open, setOpen] = React.useState(false);
+  const [input, setInput] = React.useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,15 +19,36 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSubmit = (event) =>{
+  const handleSubmit = (event) => {
     //set budget
+    setBudget(input);
+    //set some local state in our mainpage
+    //fetch to the backend to update budget table
     handleClose();
+  }
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/main', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({id:1})
+      });
+      const parsedData = await response.json();
+      
+      return setData(parsedData);
+    }
+    catch(err) {
+      console.log("error", err);
+    }
   }
 
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open Budget Editor
+        Edit Budget
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Budget</DialogTitle>
@@ -44,6 +66,7 @@ export default function FormDialog() {
             type="text"
             fullWidth
             variant="standard"
+            onChange={(e)=>{setInput(e.target.value)}}
           />
         </DialogContent>
         <DialogActions>

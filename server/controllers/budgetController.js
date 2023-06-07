@@ -12,12 +12,14 @@ const budgetController = {
   getData: async (req, res, next) => {
     try {
       const { id } = req.body; 
-      const queryString = `SELECT income, budget_amount FROM budgets WHERE user_id = ${id};`;
-      const queryString2 = `SELECT expense_amount FROM expenses WHERE _id = ${id};`;
+      const queryString = `SELECT income, budget_amount FROM budgets WHERE user_id = $1;`;
+      const queryString2 = `SELECT expense_amount FROM expenses WHERE _id = $1;`;
       const { rows } = await pool.query(queryString, [id]);
-      const expenses = (await pool.query(queryString2, [id])).rows
+      const expenses = (await pool.query(queryString2, [id])).rows;
       //expenses = [{expense_amount:200},{expense_amount:100},{expense_amount:240}]
-      res.locals.data = {salary: rows[0].income, budget: rows[0].budget_amount, expenses};
+      if(rows.length){
+        res.locals.data = {salary: rows[0].income, budget: rows[0].budget_amount, expenses};
+      }
       return next();
     } catch (error) {
       return next(errorCreator("getData", error));
@@ -41,13 +43,33 @@ const budgetController = {
   postIncome: async (req, res, next) => {
     try{
       const { income, id } = req.body;
-      const queryString = 'INSERT INTO budgets (income) VALUES ($1) WHERE user_id = ($2) RETURNING *;';
+      let queryString;
+      if (res.locals.income) {
+        queryString = 'INSERT INTO budgets (income) VALUES ($1) WHERE user_id = ($2) RETURNING *;';
+      } else {
+        queryString = 'INSERT INTO budgets (income , user_id) VALUES ($1, $2) RETURNING *;'
+      }
       const { rows } = await pool.query(queryString, [income, id]);
       res.locals.income = rows[0].income;
       return next();
     }
     catch (error) {
       return next(errorCreator("postIncome", error));
+    }
+  },
+  checkIncome: async (req,res,next) => {
+    try{
+      const { id } = req.body;
+      const queryString = 'SELECT * FROM budgets WHERE user_id = $1;'
+      const { rows } = await pool.query(queryString,[id]);
+      if (rows.length) {
+        res.locals.income = true;
+      } else {
+        res.locals.income = false;
+      }
+      return next();
+    } catch(error) {
+       return next(errorCreator("checkIncome", error));
     }
   }
 };
