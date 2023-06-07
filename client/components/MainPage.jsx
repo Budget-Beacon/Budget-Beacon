@@ -75,6 +75,7 @@ export default function MainPage({ id }) {
           component="h1"
           variant="h3"
           sx={{
+            marginTop: "4rem",
             textAlign: "center",
             fontFamily: "Montserrat",
             color: "rgb(250, 250, 250)",
@@ -83,8 +84,8 @@ export default function MainPage({ id }) {
           Budget Beacon
           <SavingsIcon fontSize="large" />
         </Typography>
-        <Box sx={{ display: "flex", alignSelf: "center" }}>
-          <Box>
+        <Box sx={{ display: "flex", alignSelf: "center", flexGrow: 1 }}>
+          <Box sx={{ alignSelf: "center" }}>
             <Typography
               component="h1"
               variant="h6"

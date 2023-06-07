@@ -3,9 +3,9 @@ import Login from "./Login";
 import MainPage from "./MainPage";
 import Signup from "./Signup";
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [toggleSignup, setToggleSignup] = useState(false);
-  const [id, setId] = useState(1);
+  const [id, setId] = useState("");
 
   return (
     <>
