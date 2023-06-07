@@ -53,46 +53,44 @@ export default function MainPage({ id }) {
   };
 
   return (
-    <div>
-      <Container
-        maxWidth={false}
+    <Container
+      sx={{
+        bgcolor: "rgb(25,25,25)",
+        display: "flex",
+        flexDirection: "column",
+        alignContent: "center",
+        justifyContent: "center",
+        minWidth: "100%",
+      }}
+    >
+      <Box
         sx={{
-          // height: "100vh",
-          bgcolor: "rgb(15,10,150)",
+          height: "100%",
+          bgcolor: "rgb(25, 25, 25)",
           display: "flex",
           flexDirection: "column",
-          alignContent: "center",
-          justifyContent: "center",
         }}
       >
-        <Box
+        <Typography
+          component="h1"
+          variant="h2"
           sx={{
-            height: 1,
-            width: 1,
-            bgcolor: "rgb(25, 25, 25)",
-            display: "flex",
-            flexDirection: "column",
+            textAlign: "center",
+            fontFamily: "Montserrat",
+            color: "rgb(250, 250, 250)",
           }}
         >
-          <Typography
-            component="h1"
-            variant="h2"
-            sx={{
-              textAlign: "center",
-              fontFamily: "Montserrat",
-              color: "rgb(250, 250, 250)",
-            }}
-          >
-            Budget Beacon
-            <SavingsIcon fontSize="large" />
-          </Typography>
+          Budget Beacon
+          <SavingsIcon fontSize="large" />
+        </Typography>
+        <div>
           <Typography
             component="h1"
             variant="h5"
             sx={{
               marginLeft: "1rem",
               marginTop: "1rem",
-              color: "rgb(64, 81, 59)",
+              color: "rgb(250, 250, 250)",
             }}
           >
             Monthly Salary: <span style={{ color: "#85bb65" }}>${salary}</span>
@@ -104,20 +102,28 @@ export default function MainPage({ id }) {
             sx={{
               marginLeft: "1rem",
               marginTop: "1rem",
-              color: "rgb(64, 81, 59)",
+              color: "rgb(250, 250, 250)",
             }}
           >
             Monthly Budget: <span style={{ color: "#85bb65" }}>${budget}</span>
           </Typography>
           <EditBudget id={id} setBudget={setBudget} />
           <AddExpense id={budgetId} setExpenses={setExpenses} />
+        </div>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <ExpensePercentageChart
             budget={budget}
             expenses={expenses}
             salary={salary}
           />
         </Box>
-      </Container>
-    </div>
+      </Box>
+    </Container>
   );
 }

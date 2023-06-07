@@ -35,13 +35,18 @@ export default function AddExpense({ id, setExpenses }) {
       sx={{ display: "flex", marginY: "1rem", marginX: "1rem", gap: "1rem" }}
     >
       <TextField
-        sx={{ width: "150px" }}
+        sx={{ width: "150px", input: { color: "#66bb6a" } }}
         InputProps={{
-          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          startAdornment: (
+            <InputAdornment position="start">
+              <span style={{ color: "#66bb6a" }}>$</span>
+            </InputAdornment>
+          ),
         }}
-        id="expense"
-        label="Expense"
+        variant="outlined"
         color="success"
+        focused
+        label="Expense"
         onChange={(e) => {
           setInput(e.target.value);
         }}

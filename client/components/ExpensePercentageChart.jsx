@@ -46,7 +46,7 @@ export default function ExpensePercentageChart({ budget, expenses, salary }) {
   return (
     <Box
       sx={{
-        bgcolor: "rgb(0,0,0)",
+        bgcolor: "rgb(25,25,25)",
         display: "flex",
         flexDirection: "column",
         alignSelf: "center",
