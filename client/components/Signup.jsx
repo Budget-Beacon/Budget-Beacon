@@ -17,7 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
-export default function Signup({setIsLoggedIn, setToggleSignup}) {
+export default function Signup({setIsLoggedIn, setToggleSignup, setId}) {
   const [success, setSuccess] = React.useState(null);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -39,6 +39,7 @@ export default function Signup({setIsLoggedIn, setToggleSignup}) {
       if (res.userId){
         setToggleSignup(false);
         setIsLoggedIn(true);
+        setId(res.userId);
       }else{
         setSuccess(false);
       }

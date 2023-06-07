@@ -12,7 +12,6 @@ SET row_security = off;
 -- command to connect to db and run script that creates tables
 -- psql -d <elephant-url> -f server/models/bb_postgres_create.sql
 
-
 CREATE TABLE public.users (
   "_id" serial NOT NULL,
   "username" varchar NOT NULL UNIQUE,
@@ -24,8 +23,8 @@ CREATE TABLE public.budgets (
   "_id" serial NOT NULL,
   "user_id" bigint NOT NULL,
   "income" int NOT NULL,
-  CONSTRAINT "budgets_pk" PRIMARY KEY ("_id"),
-  "budget_amount" int NOT NULL
+  "budget_amount" int DEFAULT 0,
+  CONSTRAINT "budgets_pk" PRIMARY KEY ("_id")
 );
 
 CREATE TABLE public.expenses (

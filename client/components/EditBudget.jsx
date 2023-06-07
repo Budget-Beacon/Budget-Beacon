@@ -18,6 +18,10 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleSubmit = (event) =>{
+    //set budget
+    handleClose();
+  }
 
   return (
     <div>
@@ -35,7 +39,7 @@ export default function FormDialog() {
             InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
             autoFocus
             margin="dense"
-          
+            name='budget'
             label="New Budget"
             type="text"
             fullWidth
@@ -44,7 +48,7 @@ export default function FormDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
+          <Button onClick={()=>handleSubmit()}>Submit</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -29,7 +29,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
-export default function Login({isLoggedIn, setIsLoggedIn, setToggleSignup}) {
+export default function Login({isLoggedIn, setIsLoggedIn, setToggleSignup, setId}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -48,6 +48,7 @@ export default function Login({isLoggedIn, setIsLoggedIn, setToggleSignup}) {
       .then((res)=> {
         if (res.userId){
           setIsLoggedIn(true);
+          setId(res.userId);
         }
       })
       .catch(err =>{
