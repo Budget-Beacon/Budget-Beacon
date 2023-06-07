@@ -44,18 +44,18 @@ export default function ExpensePercentageChart({ budget, expenses, salary }) {
     });
   }, [expenses]);
   return (
-    <Box
-      sx={{
-        bgcolor: "rgb(25,25,25)",
-        display: "flex",
-        flexDirection: "column",
-        alignSelf: "center",
-        width: "20rem",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {!!chartData && <Pie data={chartData} redraw={true} />}
-    </Box>
+    // <Box
+    //   sx={{
+    //     bgcolor: "rgb(25,25,25)",
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     alignSelf: "center",
+    //     width: "20rem",
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //   }}
+    // >
+    <>{!!chartData && <Pie data={chartData} redraw={true} />}</>
+    // </Box>
   );
 }
